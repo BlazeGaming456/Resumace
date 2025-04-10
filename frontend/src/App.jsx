@@ -1,9 +1,10 @@
 import React from 'react'
+import Form from './pages/Form'
 
 const App = () => {
   return (
     <div className='text-2xl'>
-      Hi
+      <Form/>
     </div>
   )
 }
