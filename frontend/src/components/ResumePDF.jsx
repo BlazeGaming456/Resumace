@@ -92,6 +92,7 @@ const ResumePDF = ({ resumeData = {} }) => {
     personalDetails = {},
     education = [],
     projects = [],
+    work = [],
     achievements = [],
     technicalSkills = {}
   } = resumeData;
@@ -143,6 +144,28 @@ const ResumePDF = ({ resumeData = {} }) => {
             </View>
           ))}
         </View>
+
+        {/* Work Experience */}
+        {work.length > 0 && <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Work Experience</Text>
+          {work.map((experience, index) => (
+            <View key={index} style={styles.educationItem}>
+                <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                <Text style={styles.schoolName}>{experience.name || 'Indian Institute of Information Technology, Jabalpur'}</Text>
+                <Text style={styles.location}>{experience.location || 'Jabalpur, Madhya Pradesh'}</Text>
+                </View>
+                <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                <Text style={styles.degreeInfo}>
+                    {experience.role || 'Full Stack Developer Intern'}
+                </Text>
+                <Text>
+                    {experience.startDate || 'Aug. 2023'} – {experience.endDate || 'May 2027'}
+                </Text>
+                </View>
+            </View>
+          ))}
+        </View>
+        }
 
         {/* Projects */}
         <View style={styles.section}>
