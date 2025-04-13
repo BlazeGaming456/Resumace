@@ -68,6 +68,22 @@ const Form = () => {
     }
   }); // ✅ this is now correct
   
+  const handleResumeUpload = async (file) => {
+    try {
+        const formData = new FormData();
+        formData.append('resume', file);
+
+        const response = await api.post('/resume/upload', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+
+        console.log('Resume uploaded:', response.data);
+    } catch (error) {
+        console.error('Error uploading resume:', error);
+    }
+};
 
   const onSubmit = (data) => {
     setIsSubmitting(true);
@@ -195,7 +211,7 @@ const Form = () => {
       </div>
 
       {/* Submit & Download */}
-      <button onSubmit={onSubmit} type="submit" disabled={isSubmitting} className="bg-blue-600 text-white py-2 px-6 rounded hover:bg-blue-700 disabled:bg-blue-400">
+      <button onSubmit={() => {onSubmit; handleResumeUpload;}} type="submit" disabled={isSubmitting} className="bg-blue-600 text-white py-2 px-6 rounded hover:bg-blue-700 disabled:bg-blue-400">
         {isSubmitting ? 'Saving...' : 'Save Resume'}
       </button>
 
