@@ -1,27 +1,94 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FaUser } from 'react-icons/fa';
+import { FaUser, FaBars, FaTimes } from 'react-icons/fa';
 
 const Navbar = () => {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
   return (
-    <nav className="flex items-center justify-between p-4 bg-white shadow-md">
-      {/* Logo on the left */}
-      <div className="text-xl font-bold">
-        <Link to="/">Resumace</Link>
+    <nav className="bg-white shadow-lg fixed w-full z-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between h-16">
+          {/* Logo */}
+          <div className="flex-shrink-0 flex items-center">
+            <Link to="/" className="text-xl font-bold text-gray-900 hover:text-blue-600 transition-colors duration-200">
+              Resumace
+            </Link>
+          </div>
+
+          {/* Navigation Links */}
+          <div className="hidden md:flex items-center space-x-8">
+            <Link 
+              to="/" 
+              className="text-gray-900 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200"
+            >
+              Home
+            </Link>
+            <Link 
+              to="/features" 
+              className="text-gray-900 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200"
+            >
+              Features
+            </Link>
+            <Link 
+              to="/pricing" 
+              className="text-gray-900 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200"
+            >
+              Pricing
+            </Link>
+          </div>
+
+          {/* User Profile */}
+          <div className="flex items-center">
+            <Link 
+              to="/profile" 
+              className="p-2 text-gray-900 hover:text-blue-600 rounded-full hover:bg-gray-100 transition-colors duration-200"
+            >
+              <FaUser className="h-5 w-5" />
+            </Link>
+          </div>
+
+          {/* Mobile Menu Toggle */}
+          <div className="flex md:hidden items-center">
+            <button
+              onClick={toggleMobileMenu}
+              className="p-2 text-gray-900 hover:text-blue-600 rounded-full hover:bg-gray-100 transition-colors duration-200"
+            >
+              {isMobileMenuOpen ? <FaTimes className="h-5 w-5" /> : <FaBars className="h-5 w-5" />}
+            </button>
+          </div>
+        </div>
       </div>
 
-      {/* Center navigation links */}
-      <div className="flex space-x-8">
-        <Link to="/" className="hover:text-blue-500">Home</Link>
-        <Link to="/features" className="hover:text-blue-500">Features</Link>
-        <Link to="/pricing" className="hover:text-blue-500">Pricing</Link>
-      </div>
-
-      {/* User icon on the right */}
-      <div className="text-xl">
-        <Link to="/profile">
-          <FaUser className="hover:text-blue-500" />
-        </Link>
+      {/* Mobile Menu */}
+      <div className={`md:hidden ${isMobileMenuOpen ? 'block' : 'hidden'}`}>
+        <div className="px-2 pt-2 pb-3 space-y-1 bg-white">
+          <Link 
+            to="/" 
+            className="text-gray-900 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium"
+            onClick={toggleMobileMenu}
+          >
+            Home
+          </Link>
+          <Link 
+            to="/features" 
+            className="text-gray-900 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium"
+            onClick={toggleMobileMenu}
+          >
+            Features
+          </Link>
+          <Link 
+            to="/pricing" 
+            className="text-gray-900 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium"
+            onClick={toggleMobileMenu}
+          >
+            Pricing
+          </Link>
+        </div>
       </div>
     </nav>
   );

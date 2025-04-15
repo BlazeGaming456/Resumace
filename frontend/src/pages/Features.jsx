@@ -1,94 +1,106 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FaFileAlt, FaList, FaBalanceScale, FaEnvelope, FaChartLine } from 'react-icons/fa';
+import { FaFileAlt, FaList, FaBalanceScale, FaEnvelope, FaChartLine, FaLinkedin } from 'react-icons/fa';
 
 const Features = () => {
-  const [hoveredRow, setHoveredRow] = useState(null);
+  const [hoveredIndex, setHoveredIndex] = useState(null);
 
   const features = [
     {
-      icon: <FaFileAlt className="w-6 h-6" />,
-      title: "Create Resume",
-      description: "Build your professional resume with our easy-to-use form",
-      path: "/form"
+      icon: <FaFileAlt className="w-8 h-8" />,
+      title: "Resume Builder",
+      description: "Craft professional resumes with our intuitive, step-by-step builder",
+      path: "/form",
+      color: "from-blue-100 to-blue-200"
     },
     {
-      icon: <FaList className="w-6 h-6" />,
-      title: "My Resumes",
-      description: "View and manage all your saved resumes",
-      path: "/resumes"
+      icon: <FaList className="w-8 h-8" />,
+      title: "Resume Vault",
+      description: "Securely store and manage all your resume versions in one place",
+      path: "/resumes",
+      color: "from-purple-100 to-purple-200"
     },
     {
-      icon: <FaBalanceScale className="w-6 h-6" />,
-      title: "Compare Resumes",
-      description: "Analyze and compare different versions of your resume",
-      path: "/ats-compare"
+      icon: <FaBalanceScale className="w-8 h-8" />,
+      title: "Resume Comparison",
+      description: "Analyze and optimize different versions of your resume",
+      path: "/ats-compare",
+      color: "from-green-100 to-green-200"
     },
     {
-      icon: <FaEnvelope className="w-6 h-6" />,
-      title: "Cover Letter",
-      description: "Generate personalized cover letters for your applications",
-      path: "/cover-letter"
+      icon: <FaEnvelope className="w-8 h-8" />,
+      title: "Cover Letter Generator",
+      description: "Create tailored cover letters that match your resume",
+      path: "/cover-letter",
+      color: "from-pink-100 to-pink-200"
     },
     {
-      icon: <FaChartLine className="w-6 h-6" />,
-      title: "ATS Score",
-      description: "Check how well your resume performs with ATS systems",
-      path: "/ats-score"
+      icon: <FaChartLine className="w-8 h-8" />,
+      title: "ATS Optimization",
+      description: "Get instant feedback on your resume's ATS compatibility",
+      path: "/ats-score",
+      color: "from-indigo-100 to-indigo-200"
+    },
+    {
+      icon: <FaLinkedin className="w-8 h-8" />,
+      title: "LinkedIn Sync",
+      description: "Coming Soon! Seamlessly integrate your LinkedIn profile",
+      path: "#",
+      color: "from-teal-100 to-teal-200",
+      comingSoon: true
     }
   ];
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-r from-blue-50 to-purple-50">
-      <div className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {/* Heading Section */}
-        <div className="text-center mb-12">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-20 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-4xl mx-auto">
+        {/* Header Section */}
+        <div className="text-center mb-16">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            Select from Our Many Features
+            Your Career Toolkit
           </h1>
-          <p className="text-xl text-gray-600">
-            Explore our comprehensive suite of tools to enhance your career journey
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            Everything you need to create, optimize, and manage your professional presence
           </p>
         </div>
 
-        {/* Table Section */}
-        <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-          <table className="w-full">
-            <thead className="bg-blue-600">
-              <tr>
-                <th className="px-8 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">Feature</th>
-                <th className="px-8 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">Description</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-200">
-              {features.map((feature, index) => (
-                <tr
-                  key={index}
-                  className={`transition-all duration-300 ${
-                    hoveredRow === index ? 'bg-blue-50 scale-[1.02]' : 'hover:bg-gray-50'
-                  }`}
-                  onMouseEnter={() => setHoveredRow(index)}
-                  onMouseLeave={() => setHoveredRow(null)}
-                >
-                  <td className="px-8 py-6 whitespace-nowrap">
-                    <Link to={feature.path} className="flex items-center space-x-6">
-                      <div className="text-blue-600">
-                        {feature.icon}
-                      </div>
-                      <div className="text-lg font-medium text-gray-900">
-                        {feature.title}
-                      </div>
-                    </Link>
-                  </td>
-                  <td className="px-8 py-6">
-                    <div className="text-base text-gray-600">
+        {/* Features List */}
+        <div className="space-y-6">
+          {features.map((feature, index) => (
+            <div
+              key={index}
+              className={`relative bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02] overflow-hidden group ${
+                hoveredIndex === index ? 'ring-2 ring-blue-500' : ''
+              }`}
+              onMouseEnter={() => setHoveredIndex(index)}
+              onMouseLeave={() => setHoveredIndex(null)}
+            >
+              {feature.comingSoon && (
+                <div className="absolute top-4 right-4 bg-yellow-500 text-white px-3 py-1 rounded-full text-sm">
+                  Coming Soon
+                </div>
+              )}
+              
+              <Link 
+                to={feature.path} 
+                className={`block p-8 h-full bg-gradient-to-br ${feature.color} hover:brightness-105 transition-all duration-300`}
+              >
+                <div className="flex items-center space-x-6">
+                  <div className="p-4 rounded-full bg-white shadow-md group-hover:scale-110 transition-transform duration-300">
+                    {feature.icon}
+                  </div>
+                  <div className="text-left">
+                    <h3 className="text-2xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors duration-300">
+                      {feature.title}
+                    </h3>
+                    <p className="mt-2 text-gray-600 group-hover:text-gray-800 transition-colors duration-300">
                       {feature.description}
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+                    </p>
+                  </div>
+                </div>
+              </Link>
+            </div>
+          ))}
         </div>
       </div>
     </div>
