@@ -3,6 +3,9 @@ import axios from 'axios'
 import api from '../utils/api';
 
 const CoverLetter = () => {
+
+    const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
     const [text, setText] = useState('');
     const [error, setError] = useState(null);
     const [description, setDescription] = useState('');
@@ -16,7 +19,7 @@ const CoverLetter = () => {
         formData.append('file', file);
 
         try {
-            const response = await axios.post('http://localhost:3000/ats/text', formData, {
+            const response = await axios.post(`${BACKEND_URL}/ats/text`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }

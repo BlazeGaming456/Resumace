@@ -2,6 +2,9 @@ import React, { useState } from 'react'
 import axios from 'axios'
 
 const ATSScore = () => {
+
+    const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
     const [analysis, setAnalysis] = useState({
         score: 0,
         feedback: []
@@ -16,7 +19,7 @@ const ATSScore = () => {
         formData.append('file', file);
     
         try {
-            const response = await axios.post('http://localhost:3000/ats/parse', formData, {
+            const response = await axios.post(`${BACKEND_URL}/ats/parse`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }

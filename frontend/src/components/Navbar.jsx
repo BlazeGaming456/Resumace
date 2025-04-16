@@ -10,12 +10,12 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-white shadow-lg fixed w-full z-50">
+    <nav className="bg-gray-900 shadow-lg fixed w-full z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           {/* Logo */}
           <div className="flex-shrink-0 flex items-center">
-            <Link to="/" className="text-xl font-bold text-gray-900 hover:text-blue-600 transition-colors duration-200">
+            <Link to="/" className="text-xl font-bold text-white hover:text-blue-500 transition-colors duration-200">
               Resumace
             </Link>
           </div>
@@ -24,29 +24,29 @@ const Navbar = () => {
           <div className="hidden md:flex items-center space-x-8">
             <Link 
               to="/" 
-              className="text-gray-900 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200"
+              className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200"
             >
               Home
             </Link>
             <Link 
               to="/features" 
-              className="text-gray-900 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200"
+              className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200"
             >
               Features
             </Link>
             <Link 
               to="/pricing" 
-              className="text-gray-900 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200"
+              className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200"
             >
               Pricing
             </Link>
           </div>
 
           {/* User Profile */}
-          <div className="flex items-center">
+          <div className="hidden md:block flex items-center">
             <Link 
               to="/profile" 
-              className="p-2 text-gray-900 hover:text-blue-600 rounded-full hover:bg-gray-100 transition-colors duration-200"
+              className="p-2 text-gray-300 hover:text-white rounded-full hover:bg-gray-800 transition-colors duration-200"
             >
               <FaUser className="h-5 w-5" />
             </Link>
@@ -56,7 +56,7 @@ const Navbar = () => {
           <div className="flex md:hidden items-center">
             <button
               onClick={toggleMobileMenu}
-              className="p-2 text-gray-900 hover:text-blue-600 rounded-full hover:bg-gray-100 transition-colors duration-200"
+              className="p-2 text-gray-300 hover:text-white rounded-full hover:bg-gray-800 transition-colors duration-200"
             >
               {isMobileMenuOpen ? <FaTimes className="h-5 w-5" /> : <FaBars className="h-5 w-5" />}
             </button>
@@ -66,24 +66,24 @@ const Navbar = () => {
 
       {/* Mobile Menu */}
       <div className={`md:hidden ${isMobileMenuOpen ? 'block' : 'hidden'}`}>
-        <div className="px-2 pt-2 pb-3 space-y-1 bg-white">
+        <div className="px-2 pt-2 pb-3 space-y-1 bg-gray-800">
           <Link 
             to="/" 
-            className="text-gray-900 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium"
+            className="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
             onClick={toggleMobileMenu}
           >
             Home
           </Link>
           <Link 
             to="/features" 
-            className="text-gray-900 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium"
+            className="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
             onClick={toggleMobileMenu}
           >
             Features
           </Link>
           <Link 
             to="/pricing" 
-            className="text-gray-900 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium"
+            className="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
             onClick={toggleMobileMenu}
           >
             Pricing

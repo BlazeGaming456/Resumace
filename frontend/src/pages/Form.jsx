@@ -14,9 +14,97 @@ const Form = () => {
   const onSubmit = async (data) => {
     setLoading(true);
     setError(null);
-    
+  
     try {
-      setFormData(data);
+      // Transform projects
+      const projects = [1, 2, 3].map(num => ({
+        name: data[`project${num}Name`],
+        technologies: data[`project${num}Tech`],
+        startDate: data[`project${num}StartDate`],
+        endDate: data[`project${num}EndDate`],
+        points: [
+          data[`project${num}Point1`],
+          data[`project${num}Point2`],
+          data[`project${num}Point3`],
+          data[`project${num}Point4`]
+        ].filter(Boolean)
+      })).filter(proj => proj.name);
+
+      // Transform work experience
+      const work = [1, 2, 3].map(num => ({
+        title: data[`work${num}Title`],
+        company: data[`work${num}Company`],
+        location: data[`work${num}Location`],
+        startDate: data[`work${num}StartDate`],
+        endDate: data[`work${num}EndDate`],
+        points: [
+          data[`work${num}Point1`],
+          data[`work${num}Point2`],
+          data[`work${num}Point3`],
+          data[`work${num}Point4`]
+        ].filter(Boolean)
+      })).filter(job => job.title);
+
+      // Achievements
+      const achievements = [
+        data.achievement1,
+        data.achievement2,
+        data.achievement3,
+        data.achievement4,
+        data.achievement5,
+        data.achievement6
+      ].filter(ach => ach);
+
+      // Education
+      const education = [
+        {
+          university: data.university,
+          degree: `${data.degree} - CPI - ${data.cpi} (SPI - ${data.spi})`,
+          location: data.universityLocation,
+          startDate: data.universityStartDate,
+          endDate: data.universityEndDate,
+        },
+        {
+          university: data.school12,
+          degree: `12th Grade - ${data.percentage12}%`,
+          location: data.school12Location,
+          startDate: data.school12StartDate,
+          endDate: data.school12EndDate,
+        },
+        {
+          university: data.school10,
+          degree: `10th Grade - ${data.percentage10}%`,
+          location: data.school10Location,
+          startDate: data.school10StartDate,
+          endDate: data.school10EndDate,
+        }
+      ].filter(edu => edu.university);
+
+      // Technical Skills
+      const technicalSkills = {
+        languages: data.languages,
+        frameworks: data.frameworks,
+        tools: data.tools,
+        libraries: data.libraries
+      };
+
+      // Final form data
+      const formattedData = {
+        personalDetails: {
+          name: data.name,
+          email: data.email,
+          phone: data.phone,
+          linkedin: data.linkedin,
+          github: data.github
+        },
+        education,
+        work,
+        projects,
+        achievements,
+        technicalSkills
+      };
+
+      setFormData(formattedData);
       setPdfReady(true);
     } catch (error) {
       setError({
@@ -41,17 +129,46 @@ const Form = () => {
           {currentStep === 1 && (
             <div className="space-y-4">
               <h2 className="text-xl font-semibold text-gray-800 mb-4">Personal Details</h2>
-              {['name', 'email', 'phone', 'linkedin', 'github'].map((field) => (
-                <div key={field} className="mb-4">
-                  <label className="block text-sm font-medium text-gray-700 capitalize">{field}</label>
+              <div className="grid grid-cols-1 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Full Name</label>
                   <input
-                    {...register(`personalDetails.${field}`)}
+                    {...register('name')}
                     className="mt-1 block w-full border border-gray-300 rounded-md p-2"
-                    placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
                     required
                   />
                 </div>
-              ))}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Phone</label>
+                  <input
+                    {...register('phone')}
+                    className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Email</label>
+                  <input
+                    {...register('email')}
+                    className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">LinkedIn</label>
+                  <input
+                    {...register('linkedin')}
+                    className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">GitHub</label>
+                  <input
+                    {...register('github')}
+                    className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+                  />
+                </div>
+              </div>
             </div>
           )}
 
@@ -59,40 +176,212 @@ const Form = () => {
           {currentStep === 2 && (
             <div className="space-y-4">
               <h2 className="text-xl font-semibold text-gray-800 mb-4">Education</h2>
-              {[...Array(2)].map((_, index) => (
-                <div key={index} className="mb-6">
-                  <h3 className="font-medium mb-2">Education #{index + 1}</h3>
-                  {['degree', 'course', 'university', 'location', 'cpi', 'spi'].map((field) => (
-                    <div key={field}>
-                      <label className="block text-sm font-medium text-gray-700 capitalize">{field}</label>
+              
+              <div className="mb-6 p-4 border rounded-lg">
+                <h3 className="font-medium mb-2">University</h3>
+                <div className="grid grid-cols-1 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">University Name</label>
+                    <input
+                      {...register('university')}
+                      className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">Degree</label>
+                    <input
+                      {...register('degree')}
+                      className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+                    />
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700">CPI</label>
                       <input
-                        {...register(`education.${index}.${field}`)}
+                        {...register('cpi')}
                         className="mt-1 block w-full border border-gray-300 rounded-md p-2"
-                        type="text"
-                        placeholder={field.toUpperCase()}
-                        required
                       />
                     </div>
-                  ))}
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700">Start Year</label>
-                    <input {...register(`education.${index}.startyear`)} className="mt-1 block w-full border border-gray-300 rounded-md p-2" type="text" placeholder="2023" required />
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700">SPI</label>
+                      <input
+                        {...register('spi')}
+                        className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+                      />
+                    </div>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700">End Year</label>
-                    <input {...register(`education.${index}.endyear`)} className="mt-1 block w-full border border-gray-300 rounded-md p-2" type="text" placeholder="2027" required />
+                    <label className="block text-sm font-medium text-gray-700">Location</label>
+                    <input
+                      {...register('universityLocation')}
+                      className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+                    />
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700">Start Date</label>
+                      <input
+                        {...register('universityStartDate')}
+                        className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700">End Date</label>
+                      <input
+                        {...register('universityEndDate')}
+                        className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+                      />
+                    </div>
                   </div>
                 </div>
-              ))}
+              </div>
+              
+              <div className="mb-6 p-4 border rounded-lg">
+                <h3 className="font-medium mb-2">12th Grade</h3>
+                <div className="grid grid-cols-1 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">School Name</label>
+                    <input
+                      {...register('school12')}
+                      className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">Percentage</label>
+                    <input
+                      {...register('percentage12')}
+                      className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">Location</label>
+                    <input
+                      {...register('school12Location')}
+                      className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+                    />
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700">Start Date</label>
+                      <input
+                        {...register('school12StartDate')}
+                        className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700">End Date</label>
+                      <input
+                        {...register('school12EndDate')}
+                        className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="p-4 border rounded-lg">
+                <h3 className="font-medium mb-2">10th Grade</h3>
+                <div className="grid grid-cols-1 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">School Name</label>
+                    <input
+                      {...register('school10')}
+                      className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">Percentage</label>
+                    <input
+                      {...register('percentage10')}
+                      className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">Location</label>
+                    <input
+                      {...register('school10Location')}
+                      className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+                    />
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700">Start Date</label>
+                      <input
+                        {...register('school10StartDate')}
+                        className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700">End Date</label>
+                      <input
+                        {...register('school10EndDate')}
+                        className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           )}
 
-          {/* Step 3: Skills */}
+          {/* Step 3: Work Experience */}
           {currentStep === 3 && (
             <div className="space-y-4">
-              <h2 className="text-xl font-semibold text-gray-800 mb-4">Skills</h2>
-              <label className="block text-sm font-medium text-gray-700">Technical Skills (Comma-Separated)</label>
-              <input {...register(`skills`)} className="mt-1 block w-full border border-gray-300 rounded-md p-2" placeholder="React, Node.js, MongoDB" required />
+              <h2 className="text-xl font-semibold text-gray-800 mb-4">Work Experience</h2>
+              
+              {[1, 2, 3].map((num) => (
+                <div key={num} className="mb-6 p-4 border rounded-lg">
+                  <h3 className="font-medium mb-2">Work Experience {num}</h3>
+                  <div className="grid grid-cols-1 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700">Job Title</label>
+                      <input
+                        {...register(`work${num}Title`)}
+                        className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700">Company</label>
+                      <input
+                        {...register(`work${num}Company`)}
+                        className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700">Location</label>
+                      <input
+                        {...register(`work${num}Location`)}
+                        className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+                      />
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700">Start Date</label>
+                        <input
+                          {...register(`work${num}StartDate`)}
+                          className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700">End Date</label>
+                        <input
+                          {...register(`work${num}EndDate`)}
+                          className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+                        />
+                      </div>
+                    </div>
+                    {[1, 2, 3, 4].map((pointNum) => (
+                      <div key={pointNum}>
+                        <label className="block text-sm font-medium text-gray-700">Bullet Point {pointNum}</label>
+                        <input
+                          {...register(`work${num}Point${pointNum}`)}
+                          className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
             </div>
           )}
 
@@ -100,49 +389,110 @@ const Form = () => {
           {currentStep === 4 && (
             <div className="space-y-4">
               <h2 className="text-xl font-semibold text-gray-800 mb-4">Projects</h2>
-              {[...Array(3)].map((_, index) => (
-                <div key={index} className="mb-6">
-                  <h3 className="font-medium mb-2">Project #{index + 1}</h3>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700">Project Name</label>
-                    <input {...register(`project.${index}.name`)} className="mt-1 block w-full border border-gray-300 rounded-md p-2" placeholder="Project Name" required />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700">Description (Use new lines for bullet points)</label>
-                    <textarea {...register(`project.${index}.description`)} rows={4} className="mt-1 block w-full border border-gray-300 rounded-md p-2" placeholder="• Built UI with React&#10;• Integrated MongoDB&#10;• Deployed to Netlify" required />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700">Start Time</label>
-                    <input {...register(`project.${index}.starttime`)} className="mt-1 block w-full border border-gray-300 rounded-md p-2" placeholder="April, 2025" required />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700">End Time</label>
-                    <input {...register(`project.${index}.endtime`)} className="mt-1 block w-full border border-gray-300 rounded-md p-2" placeholder="May, 2025" required />
+              
+              {[1, 2, 3].map((num) => (
+                <div key={num} className="mb-6 p-4 border rounded-lg">
+                  <h3 className="font-medium mb-2">Project {num}</h3>
+                  <div className="grid grid-cols-1 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700">Project Name</label>
+                      <input
+                        {...register(`project${num}Name`)}
+                        className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700">Technologies Used</label>
+                      <input
+                        {...register(`project${num}Tech`)}
+                        className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+                      />
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700">Start Date</label>
+                        <input
+                          {...register(`project${num}StartDate`)}
+                          className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700">End Date</label>
+                        <input
+                          {...register(`project${num}EndDate`)}
+                          className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+                        />
+                      </div>
+                    </div>
+                    {[1, 2, 3, 4].map((pointNum) => (
+                      <div key={pointNum}>
+                        <label className="block text-sm font-medium text-gray-700">Bullet Point {pointNum}</label>
+                        <input
+                          {...register(`project${num}Point${pointNum}`)}
+                          className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+                        />
+                      </div>
+                    ))}
                   </div>
                 </div>
               ))}
             </div>
           )}
 
-          {/* Step 5: Work Experience */}
+          {/* Step 5: Achievements */}
           {currentStep === 5 && (
             <div className="space-y-4">
-              <h2 className="text-xl font-semibold text-gray-800 mb-4">Work Experience</h2>
-              {[...Array(3)].map((_, index) => (
-                <div key={index} className="mb-6">
-                  <h3 className="font-medium mb-2">Company #{index + 1}</h3>
-                  {['name', 'role', 'description', 'starttime', 'endtime'].map((field) => (
-                    <div key={field}>
-                      <label className="block text-sm font-medium text-gray-700 capitalize">{field}</label>
-                      <input
-                        {...register(`work.${index}.${field}`)}
-                        className="mt-1 block w-full border border-gray-300 rounded-md p-2"
-                        placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
-                      />
-                    </div>
-                  ))}
+              <h2 className="text-xl font-semibold text-gray-800 mb-4">Achievements</h2>
+              
+              <div className="grid grid-cols-1 gap-4">
+                {[1, 2, 3, 4, 5, 6].map((num) => (
+                  <div key={num}>
+                    <label className="block text-sm font-medium text-gray-700">Achievement {num}</label>
+                    <input
+                      {...register(`achievement${num}`)}
+                      className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Step 6: Technical Skills */}
+          {currentStep === 6 && (
+            <div className="space-y-4">
+              <h2 className="text-xl font-semibold text-gray-800 mb-4">Technical Skills</h2>
+              
+              <div className="grid grid-cols-1 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Languages (comma separated)</label>
+                  <input
+                    {...register('languages')}
+                    className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+                  />
                 </div>
-              ))}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Frameworks (comma separated)</label>
+                  <input
+                    {...register('frameworks')}
+                    className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Developer Tools (comma separated)</label>
+                  <input
+                    {...register('tools')}
+                    className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Libraries (comma separated)</label>
+                  <input
+                    {...register('libraries')}
+                    className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+                  />
+                </div>
+              </div>
             </div>
           )}
 
@@ -158,7 +508,7 @@ const Form = () => {
               </button>
             )}
             
-            {currentStep < 5 ? (
+            {currentStep < 6 ? (
               <button
                 type="button"
                 onClick={nextStep}
@@ -179,22 +529,31 @@ const Form = () => {
         </form>
 
         {/* PDF Download Section */}
-{currentStep === 5 && pdfReady && (
-  <div className="mt-8">
-    <PDFDownloadLink 
-      document={<ResumePDF resumeData={formData} />} 
-      fileName="resume.pdf"
-    >
-      {({ loading }) => (
-        <button
-          className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition-colors"
-          disabled={loading}
-        >
-          {loading ? 'Loading document...' : 'Download PDF'}
-        </button>
-      )}
-    </PDFDownloadLink>
-  </div>
+        {pdfReady && (
+          <div className="mt-8">
+            <PDFDownloadLink 
+              document={<ResumePDF resumeData={formData} />} 
+              fileName="resume.pdf"
+              className="block"
+            >
+              {({ loading }) => (
+                <button
+                  className="w-full bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition-colors"
+                  disabled={loading}
+                >
+                  {loading ? 'Loading document...' : 'Download PDF'}
+                </button>
+              )}
+            </PDFDownloadLink>
+          </div>
+        )}
+
+        {/* Error Message */}
+        {error && (
+          <div className="mt-4 p-4 bg-red-100 text-red-700 rounded-md">
+            <p className="font-bold">{error.message}</p>
+            <p>{error.details}</p>
+          </div>
         )}
       </div>
     </div>

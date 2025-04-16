@@ -1,9 +1,20 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaFileAlt, FaList, FaBalanceScale, FaEnvelope, FaChartLine, FaLinkedin } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 
 const Features = () => {
   const [hoveredIndex, setHoveredIndex] = useState(null);
+  const navigate = useNavigate();
+
+  const handleFeatureClick = (path) => {
+    const token = localStorage.getItem('token');
+    if (!token && path !== '/pricing') {
+      navigate('/login');
+    } else {
+      navigate(path);
+    }
+  };
 
   const features = [
     {
@@ -81,9 +92,9 @@ const Features = () => {
                 </div>
               )}
               
-              <Link 
-                to={feature.path} 
-                className={`block p-8 h-full bg-gradient-to-br ${feature.color} hover:brightness-105 transition-all duration-300`}
+              <div 
+                onClick={() => handleFeatureClick(feature.path)}
+                className={`block p-8 h-full bg-gradient-to-br ${feature.color} hover:brightness-105 transition-all duration-300 cursor-pointer`}
               >
                 <div className="flex items-center space-x-6">
                   <div className="p-4 rounded-full bg-white shadow-md group-hover:scale-110 transition-transform duration-300">
@@ -98,7 +109,7 @@ const Features = () => {
                     </p>
                   </div>
                 </div>
-              </Link>
+              </div>
             </div>
           ))}
         </div>

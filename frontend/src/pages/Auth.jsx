@@ -3,6 +3,9 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const Auth = ({ isLogin }) => {
+
+    const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
@@ -13,7 +16,7 @@ const Auth = ({ isLogin }) => {
         
         try {
             const endpoint = isLogin ? '/auth/login' : '/auth/signup';
-            const response = await axios.post(`http://localhost:3000${endpoint}`, {
+            const response = await axios.post(`${BACKEND_URL}${endpoint}`, {
                 email,
                 password
             });

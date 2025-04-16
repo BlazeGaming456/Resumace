@@ -11,6 +11,7 @@ import Home from './pages/Home.jsx'
 import Navbar from './components/Navbar.jsx'
 import Footer from './components/Footer.jsx'
 import Features from './pages/Features.jsx'
+import Pricing from './pages/Pricing.jsx'
 
 const App = () => {
   return (
@@ -20,7 +21,12 @@ const App = () => {
         <Route path="/login" element={<Auth isLogin={true} />} />
         <Route path="/signup" element={<Auth isLogin={false} />} />
         <Route path="/" element={<Home />} />
-        <Route path="/features" element={<Features />} />
+        <Route path="/features" element={
+          <ProtectedRoute>
+            <Features />
+          </ProtectedRoute>
+        } />
+        <Route path="/pricing" element={<Pricing />} />
 
         <Route path="/form" element={
           <ProtectedRoute>
