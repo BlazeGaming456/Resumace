@@ -17,6 +17,7 @@ const App = () => {
   return (
     <div>
       <Navbar/>
+      <div className="pt-10">
       <Routes>
         <Route path="/login" element={<Auth isLogin={true} />} />
         <Route path="/signup" element={<Auth isLogin={false} />} />
@@ -54,6 +55,7 @@ const App = () => {
           // </ProtectedRoute>
         } />
       </Routes>
+      </div>
       <Footer/>
     </div>
   );
