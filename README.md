@@ -52,7 +52,6 @@ Resumace is a comprehensive web application designed to help users create, optim
    GEMINI_API_KEY=your_api_key_here
    JWT_SECRET=your_jwt_secret_here
     ```
-   ```
 4. Start the server:
    ```bash
    npm start
