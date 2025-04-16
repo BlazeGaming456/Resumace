@@ -22,36 +22,36 @@ const App = () => {
         <Route path="/signup" element={<Auth isLogin={false} />} />
         <Route path="/" element={<Home />} />
         <Route path="/features" element={
-          <ProtectedRoute>
+          // <ProtectedRoute>
             <Features />
-          </ProtectedRoute>
+          // </ProtectedRoute>
         } />
         <Route path="/pricing" element={<Pricing />} />
 
         <Route path="/form" element={
-          <ProtectedRoute>
+          // <ProtectedRoute>
             <Form />
-          </ProtectedRoute>
+          // </ProtectedRoute>
         } />
         <Route path="/ats-score" element={
-          <ProtectedRoute>
+          // <ProtectedRoute>
             <ATSScore />
-          </ProtectedRoute>
+          // </ProtectedRoute>
         } />
         <Route path="/ats-compare" element={
-          <ProtectedRoute>
+          // <ProtectedRoute>
             <ResumeComparison />
-          </ProtectedRoute>
+          // </ProtectedRoute>
         } />
         <Route path="/cover-letter" element={
-          <ProtectedRoute>
+          // <ProtectedRoute>
             <CoverLetter />
-          </ProtectedRoute>
+          // </ProtectedRoute>
         } />
         <Route path="/resumes" element={
-          <ProtectedRoute>
+          // <ProtectedRoute>
             <ResumeList />
-          </ProtectedRoute>
+          // </ProtectedRoute>
         } />
       </Routes>
       <Footer/>
